@@ -4,8 +4,7 @@ var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 // Requiring our Note and Article models
-var Note = require("./models/Note.js");
-var Article = require("./models/Article.js");
+
 // Our scraping tools
 var request = require("request");
 var cheerio = require("cheerio");
@@ -45,5 +44,5 @@ require("./routes/api-routes.js")(app);
 require("./routes/html-routes.js")(app);
 
 app.listen(PORT, function() {
-  console.log("App running on port 3000!");
+  console.log("App running on port 9000!");
 });
