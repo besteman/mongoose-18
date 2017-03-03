@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-const categories = ["politics", "health" , "travel", "opinion"];
+const categories = ["health"];
 
 for (let i = 0; i < categories.length; i++) {
 	
@@ -23,13 +23,27 @@ for (let i = 0; i < categories.length; i++) {
 
 } // End of For Loop Let I
 
+let btn = $("<button>");
+
+btn.attr({
+
+	"class": "btn btn-default ready",
+	"data-index": "health"
+
+});
+
+btn.text("view");
+
+btn.appendTo(".nav-bar");
+
+
 $(".nav-bar").on("click" , ".potentials" , function(){
 
 	let user = $(this).data("index");
 
 	$(this).removeClass("btn-default potentials");
 
-	$(this).addClass("btn-primary ready");
+	$(".potentials").prop("disable" , true);
 
 	console.log(user);
 
@@ -37,6 +51,7 @@ $(".nav-bar").on("click" , ".potentials" , function(){
 	done(function(data){
 
 		alert("Scraped");
+
 
 	});
 
@@ -51,9 +66,7 @@ $(".nav-bar").on("click" , ".potentials" , function(){
 */
 $(".nav-bar").on("click" , ".ready" , function(){
 
-	let user = $(this).data("index");
-	console.log(user);
-	$.get("/api/viewing/" + user).
+	$.get("/api/viewing/").
 	done(function(data){
 
 		$.each(data, function(key , value){
@@ -98,7 +111,10 @@ $(".nav-bar").on("click" , ".ready" , function(){
 
 			let div_body = $("<div>");
 
-			div_body.addClass("panel-body");
+			div_body.attr({
+				"class": "panel-body",
+				"data-body": key
+			});
 
 
 
@@ -140,8 +156,69 @@ $(".main").on("click" , ".note" , function(){
 		done(function(data){
 
 
-
 		});
+
+		$.get("/api/viewing/").
+		done(function(response){
+
+			$.each(response, function(key , value){
+
+				let div_main = $("<div>");
+
+				div_main.addClass("panel panel-default");
+
+				div_main.appendTo(".main");
+
+				let div_title = $("<div>");
+
+				div_title.addClass("panel-heading");
+
+				div_title.appendTo(div_main);
+
+
+				let note = $("<span>");
+
+
+				note.attr({
+
+					"class": "glyphicon glyphicon-pencil note",
+					"aria-hidden": "true",
+					"data-toggle" : "modal",
+					"data-target": "#myModal",
+					"data-news": response[key].title,
+					"data-index": response[key]._id
+
+				});
+
+
+
+
+				let h3 = $("<h5>");
+
+				h3.text(response[key].title);
+
+				h3.appendTo(div_title);
+
+				note.appendTo(div_title)
+
+				let div_body = $("<div>");
+
+				div_body.attr({
+					"class": "panel-body",
+					"data-body": key
+				});
+
+
+
+				div_body.appendTo(div_main);
+
+				div_body.append(response[key].note);
+
+			
+			});
+
+		}); 
+
 
 
 	})

@@ -2,7 +2,7 @@ const request = require('request');
 const cheerio = require('cheerio');
 var mongoose = require("mongoose");
 
-var limitless = 0;
+
 
 var Articles = require('./../models/news.js');
 
@@ -47,16 +47,14 @@ module.exports = function(app){
 		
 	});
 
-	app.get("/api/viewing/:user?" , function(req,res){
+	app.get("/api/viewing/" , function(req,res){;
 
-		limitless += 10;
 
-		console.log(req.params.user);
 
-		Articles.find({ 'cagetory': req.params.user }, function (err, data) {
+		Articles.find({ }, function (err, data) {
 		  if (err) return handleError(err);
 		  res.send(data) // Space Ghost is a talk show host.
-		}).limit(limitless)
+		})
 
 	})
 
